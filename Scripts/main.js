@@ -1,6 +1,5 @@
-// ===============================
-// MAP & ELEMENTS
-// ===============================
+/*** MAP & ELEMENTS ***/
+
 const MAP_FOLDER = "maps/";
 const SVG_VIEWBOX = "0 0 100 100";
 
@@ -18,9 +17,8 @@ const svg = document.getElementById("route-layer");
 svg.setAttribute("viewBox", SVG_VIEWBOX);
 svg.setAttribute("preserveAspectRatio", "none");
 
-// ===============================
-// POPULATE DROPDOWNS WITH SORTING
-// ===============================
+/*** POPULATE DROPDOWNS WITH SORTING ***/
+
 function populateDropdowns() {
 
     if (!Array.isArray(nodes)) {
@@ -68,9 +66,7 @@ function populateDropdowns() {
 document.addEventListener("DOMContentLoaded", populateDropdowns);
 
 
-// ===============================
-// REPLAY
-// ===============================
+/*** REPLAY FUNCTION ***/
 let lastPath = null;
 
 replayBtn.addEventListener("click", () => {
@@ -80,14 +76,12 @@ replayBtn.addEventListener("click", () => {
 });
 
 
-// -------------------------
-// IMAGE DRAG PREVENTION
-// -------------------------
+/*** IMAGE DRAG PREVENTION ***/
+
 mapImage.addEventListener("dragstart", e => e.preventDefault());
 
-// -------------------------
-// PAN & ZOOM LOGIC
-// -------------------------
+/*** PAN & ZOOM LOGIC ***/
+
 mapContainer.style.cursor = "grab";
 let scale = 1, translateX = 0, translateY = 0;
 let isPanning = false, startX = 0, startY = 0;
@@ -173,9 +167,8 @@ function getTouchDistance(touches) {
 function getTouchCenter(touches) {
     return { x: (touches[0].clientX + touches[1].clientX)/2, y: (touches[0].clientY + touches[1].clientY)/2 };
 }
-// ===============================
-// UTILITIES
-// ===============================
+/*** UTILITIES ***/
+
 function getNode(id) {
     return nodes.find(n => n.id === id);
 }
@@ -189,9 +182,8 @@ function bringPinsToFront() {
         .forEach(pin => svg.appendChild(pin));
 }
 
-// ===============================
-// PIN DRAWING
-// ===============================
+/*** PIN DRAWING ***/
+
 function drawPin(node, type) {
     const color =
         type === "start" ? "#00cc00" :
@@ -220,9 +212,8 @@ function drawPin(node, type) {
     svg.appendChild(triangle);
 }
 
-// ===============================
-// ROUTE CALCULATION
-// ===============================
+/*** ROUTE CALCULATION ***/
+
 function calculateRoute() {
     const startId = startSelect.value;
     const endId = endSelect.value;
@@ -242,9 +233,7 @@ function calculateRoute() {
     renderRouteMultiFloor(path);
 }
 
-// ===============================
-// MULTI-FLOOR RENDERING
-// ===============================
+/*** MULTI-FLOOR RENDERING ***/
 function renderRouteMultiFloor(path) {
     let index = 0;
     let t = 0;
@@ -307,11 +296,9 @@ function renderRouteMultiFloor(path) {
     nextSegment();
 }
 
-// ===============================
-// GPS SYSTEM
-// ===============================
+/*** GPS SYSTEM ***/
 
-// 5 calibration points (irregular)
+// calibration points
 const calibrationPoints = [
     { lat: 15.485739301781981, lng: 120.97380717428112, x: 20.48, y: 86.24 },
     { lat: 15.486152587354715, lng: 120.97426045383736, x: 11.87, y: 20.14 },
@@ -320,7 +307,7 @@ const calibrationPoints = [
     { lat: 15.485392524404139, lng: 120.97400515727534, x: 72.53, y: 86.16 }
 ];
 
-// True irregular warping (IDW)
+
 function convertLatLngToMapXY(lat, lng) {
 
     let numeratorX = 0;
@@ -362,9 +349,8 @@ function isInsideCampus(lat, lng) {
            lng <= campusBounds.lngMax;
 }
 
-// ===============================
-// LIVE GPS
-// ===============================
+/*** LIVE GPS ***/
+
 let liveGPS = false;
 let watchID = null;
 let userMarker = null;
