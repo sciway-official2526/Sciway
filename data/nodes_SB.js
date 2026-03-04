@@ -32,7 +32,7 @@ const nodes = [
 	},
 	{
 			id:"Bernoulli",
-			name:"12-Bernoulli",
+			name:"12-Bernoulli/11-Elion",
 			map:"SB_FINALBLDG_1.png",
 			x: 59.1,
 			y: 68.54,
@@ -42,7 +42,7 @@ const nodes = [
 	},
 	{
 			id:"Shannon",
-			name:"12-Shannon",
+			name:"12-Shannon/11-Lovelace",
 			map:"SB_FINALBLDG_1.png",
 			x: 76.96,
 			y: 68.54,
@@ -144,7 +144,7 @@ const nodes = [
 	},
 	{
 			id:"Stephenson",
-			name:"12-Stephenson",
+			name:"12-Stephenson/11-Hahn",
 			map:"SB_FINALBLDG_2.png",
 			x: 41.24,
 			y: 68.9,
@@ -154,7 +154,7 @@ const nodes = [
 	},
 	{
 			id:"Mayer",
-			name:"12-Von Mayer",
+			name:"12-Von Mayer/11-Vesalius",
 			map:"SB_FINALBLDG_2.png",
 			x: 58.22,
 			y: 68.9,
@@ -164,7 +164,7 @@ const nodes = [
 	},
 	{
 			id:"Pacioli",
-			name:"12-Pacioli",
+			name:"12-Pacioli/11-Ayala",
 			map:"SB_FINALBLDG_2.png",
 			x: 75.73,
 			y: 68.9,
