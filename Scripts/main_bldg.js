@@ -12,6 +12,11 @@ const svg = document.getElementById("route-layer");
 
 const replayBtn = document.getElementById("replay-btn");
 
+svg.setAttribute("viewBox", SVG_VIEWBOX);
+svg.setAttribute("preserveAspectRatio", "none");
+
+/*** REPLAY FUNCTION ***/
+
 let lastPath = null;
 
 replayBtn.addEventListener("click", () => {
@@ -21,10 +26,12 @@ replayBtn.addEventListener("click", () => {
 	renderRouteMultiFloor(lastPath);
 });
 
+/*** IMAGE DRAG PREVENTION ***/
 // Prevent image dragging
 mapImage.addEventListener("dragstart", e => e.preventDefault());
 mapContainer.style.cursor = "grab";
 
+/*** ZOOM AND PANNING FUNCTION ***/
 
 let scale = 1, translateX = 0, translateY = 0;
 let isPanning = false, startX = 0, startY = 0;
@@ -115,28 +122,54 @@ function getTouchCenter(touches) {
 	};
 }
 
+/*** POPULATE DROPDOWNS ***/
 
-document.addEventListener("DOMContentLoaded", () => {
-	// Populate start/end selects (only selectable nodes)
-	const selectableNodes = nodes
-	.filter(n => n.selectable)
-	.sort((a, b) => a.name.localeCompare(b.name));
+function populateDropdowns() {
 	
-	selectableNodes.forEach(node => {
-	startSelect.add(new Option(node.name, node.id));
-	endSelect.add(new Option(node.name, node.id));
-	});
-	// Prevent choosing the same start/end
-	function preventSameSelection() {
-		if (startSelect.value && startSelect.value === endSelect.value) {
-			alert("Starting point and destination must be different.");
-			this.selectedIndex = 0;
-		}
+	if (!Array.isArray(nodes)) {
+		console.error("nodes not loaded");
+		return;
 	}
-	startSelect.addEventListener("change", preventSameSelection);
-	endSelect.addEventListener("change", preventSameSelection);
+	
+	//Sort nodes alphabetically by name
+	const selectableNodes = nodes
+		.filter(n => n.selectable)
+		.sort((a,b) => a.name.localeCompare(b.name));
+		
+	selectableNodes.forEach(node => {
+		const startOption = document.createElement("option");
+		startOption.value = node.id;
+		startOption.textContent = node.name;
+		startSelect.appendChild(startOption);
+		
+		const endOption = document.createElement("option");
+		endOption.value = node.id;
+		endOption.textContent = node.name;
+		endSelect.appendChild(endOption);
+	});
+	
+	//Prevent selecting the same location for start and end
+	startSelect.addEventListener("change", () => { const startValue = startSelect.value;
+	Array.from(endSelect.options).forEach(option => {
+		option.disabled = option.value === startValue;
+	});
+	//  If current end is same as start, reset end
+	if (endSelect.value === startValue)
+		endSelect.value = "";
+	});
+	
+	endSelect.addEventListener("change", () => { const endValue = endSelect.value;
+	Array.from(startSelect.options).forEach( option => {
+		option.disabled = option.value === endValue;
+	});
+	// If current start is same as end, reset start
+	if (startSelect.value === endValue)
+		startSelect.value = "";
+	});
+}
+document.addEventListener("DOMContentLoaded", populateDropdowns);
 
-	// Route button
+/*** ROUTE VALIDATION AND CALCULATION ***/
 	if (routeBtn) {
 		routeBtn.addEventListener("click", () => {
 			const startId = startSelect.value;
@@ -148,22 +181,23 @@ document.addEventListener("DOMContentLoaded", () => {
 			calculateRoute();
 		});
 	}
-});
 
+/*** UTILITIES ***/
 
-svg.setAttribute("viewBox", SVG_VIEWBOX);
-svg.setAttribute("preserveAspectRatio", "none");
-
-
-function getNode(id) { return nodes.find(n => n.id === id); }
-function clearRoute() { svg.innerHTML = ""; }
-
-function bringPinsToFront() {
-	svg.querySelectorAll(".pin").forEach(pin => {
-		svg.appendChild(pin);
-	});
+function getNode(id) { 
+	return nodes.find(n => n.id === id); 
 }
 
+function clearRoute() { 
+	svg.innerHTML = ""; 
+}
+
+function bringPinsToFront() {
+	svg.querySelectorAll(".pin")
+		.forEach(pin => svg.appendChild(pin));
+}
+
+/*** PIN DRAWING ***/
 
 function drawPin(node, type) {
 	const color = type === "start" ? "#00cc00" : "#cc0000";
@@ -192,7 +226,7 @@ function drawPin(node, type) {
 }
 
 
-//Route calculation
+/*** ROUTE CALCULATION ***/
 function calculateRoute() {
 	const startId = startSelect.value;
 	const endId = endSelect.value;
@@ -212,7 +246,7 @@ function calculateRoute() {
 	renderRouteMultiFloor(path);
 }
 
-// Multifloor rendering
+/*** MULTI-FLOOR RENDERING ***/
 function renderRouteMultiFloor(path) {
 	let index = 0;
     let t = 0;
@@ -226,13 +260,13 @@ function renderRouteMultiFloor(path) {
 
     function nextSegment() {
 
-        // ✅ Finished route
         if (index >= path.length - 1) {
 
             const finalNode = getNode(path[path.length - 1]);
 
             if (finalNode.type !== "stair") {
                 drawPin(finalNode, "end");
+				bringPinsToFront();
             }
 
             return;
@@ -241,21 +275,20 @@ function renderRouteMultiFloor(path) {
         const a = getNode(path[index]);
         const b = getNode(path[index + 1]);
 
-        // 🚨 FLOOR CHANGE
+        
         if (a.floor !== b.floor) {
 
             setTimeout(() => {
 
-                // ✅ Switch map
+                
                 mapImage.src = MAP_FOLDER + b.map;
 
-                // ✅ Clear previous floor drawing
+               
                 clearRoute();
 
-                // 🚫 DO NOT draw stair pin
-                // 🚫 DO NOT draw connecting line
+                
 
-                index++; // move to next node
+                index++;
                 nextSegment();
 
             }, 600);
@@ -263,7 +296,7 @@ function renderRouteMultiFloor(path) {
             return;
         }
 
-        // ✅ Normal same-floor animation
+       
         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
         line.setAttribute("x1", a.x);
         line.setAttribute("y1", a.y);
@@ -288,6 +321,7 @@ function renderRouteMultiFloor(path) {
                 requestAnimationFrame(animate);
             } else {
                 index++;
+				bringPinsToFront();
                 nextSegment();
             }
         }
@@ -297,4 +331,3 @@ function renderRouteMultiFloor(path) {
 
     nextSegment();
 }
-
