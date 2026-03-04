@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> DPWH Building Directory </title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+	<div>
+		<button class="direction-btn" onclick="window.location.href='Direction.html'"> Get Directions </button>
+	</div>
+	
+	<div class="home-btn" onclick="window.location.href='index.html'">
+		<img src="resources/home.png" alt="Home" class="home-image">
+	</div>
+</div>
+
+<div class="logo-wrapper">
+    <a href="index.html"><img src="resources\SciWayLogo.png" alt="Logo" class="logo-image"></a>
+</div>
+
+<div class="controls">
+  <label>
+    Start:
+    <select id="start"><option value="" disabled selected>Select your starting position</option></select>
+  </label>
+
+  <label>
+    Destination:
+    <select id="end"><option value="" disabled selected>Select your destination</option></select>
+  </label>
+
+  <button id="route-btn">Get Directions</button>
+</div>
+
+<div id="map-container">
+	<div id="map-inner">
+		<img id="map-image" src="maps\DWPH_FINALBLDG_1.png" alt="DPWH Building">
+		<svg id="route-layer"></svg>
+	</div>
+</div>
+
+<div class="replay">
+	<button id="replay-btn" style="display:none;"> Replay Route</button>
+</div>
+	
+	
+	<div class="container-btn">
+		<button class="nav-btn" onclick="window.location.href='Fajardo Building.html'"> Fajardo Building </button>
+		<button class="nav-btn" onclick="window.location.href='Perez Building.html'"> Perez Building </button>
+		<button class="nav-btn" onclick="window.location.href='Security Bank Building.html'"> Security Bank Building </button>
+	</div>
+
+<script src="data/nodes_DPWH.js"></script>
+<script src="data/edges_DPWH.js"></script>
+<script src="Scripts/route.js"></script>
+<script src="Scripts/main_bldg.js"></script>
+
+
+</body>
+</html>
+
+		
+
+
+
+

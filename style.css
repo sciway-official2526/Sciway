@@ -1,0 +1,352 @@
+/* ----------FONT DEFINITION---------- */
+
+@font-face {
+	font-family: 'Poppins';
+	src: url('Poppins/Poppins-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Poppins';
+	src: url('Poppins/Poppins-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Poppins';
+	src: url('Poppins/Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Poppins';
+	src: url('Poppins/Poppins-Thin.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+/* ----------GLOBAL RESET & SAFETY---------- */
+
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+}
+
+/* ----------BODY STYLING---------- */
+
+body {
+	font-family: 'Poppins', sans-serif;
+	text-align: center;
+	margin: 0;
+	padding: 50px;
+	background: url("resources/Bg_photo.png") no-repeat center center fixed;
+	background-size: 100% 100%;
+	position: relative;
+	color: #333;
+}
+
+
+/* ----------TOP HEADER---------- */
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 50px;
+	background: linear-gradient(to right, #c98d1f, #6e1c0d);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	padding: 0 0px;
+	box-shadow: 0 3px 5px rgba(0,0,0,0.5);
+	z-index: 1000;
+}
+
+/* ----------HOME BUTTON---------- */
+
+.home-btn {
+	width: 40px;
+	height: 40px;
+	background: #941800;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.home-btn:hover {
+	background: #801919;
+}
+
+.home-image {
+	max-width: 20px;
+	height: auto;
+}
+
+/* ----------DIRECTION BUTTON---------- */
+
+.direction-btn {
+	padding: 8px 22px;
+	border-radius: 25px;
+	border: none;
+	background: linear-gradient(to right, #a11e00, #f09819);
+	color: white;
+	font-family: 'Poppins', sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: 0px 3px 6px rgba(0,0,0,0.4);
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.direction-btn:hover {
+	transform: scale(1.05);
+	box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
+}
+
+/* ----------LOGO---------- */
+
+.logo-image {
+	padding-top: 20px;
+	max-width: 400px;
+	height: auto;
+	display: block;
+	margin: 0 auto;
+}
+
+/* ----------NAVIGATION BUTTONS---------- */
+
+.container-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 50px;
+	margin-top: 30px;
+}
+
+.nav-btn {
+	background: linear-gradient(to right, #a11e00, #f09819);
+	color: white;
+	width: 400px;
+	min-height: 48px;
+	padding: 15px 40px;
+	border: none;
+	border-radius: 50px;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 700;
+	font-size: 22px;
+	cursor: pointer;
+	text-shadow: 2px 2px 5px #1C1717;
+	box-shadow: 0px 4px 11px rgba(0,0,0,0.6);
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.nav-btn:hover {
+	transform: scale(1.05);
+	box-shadow: 0px 6px 15px rgba(0,0,0,0.6);
+}
+
+/* ----------MAIN MAP IMAGE---------- */
+
+.main-image {
+	width:100%;
+	max-width: 900px;
+	height: auto;
+	margin: 10px auto;
+	display: block;
+}
+
+/* ----------MAP & ROUTING ---------- */
+
+#map-container {
+	position: relative;
+	width: 100%;
+	max-width: 900px;
+	margin: 10px auto;
+	border-radius: 8px;
+	overflow: hidden;
+	touch-action: none;
+	cursor: grab;
+}
+
+#map-image {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+#map-inner {
+	position: relative;
+	width: 100%;
+	display: inline-block;
+	/*transform-origin: center center;*/
+}
+
+#map-container: active {
+	cursor: grabbing
+}
+
+/* ----------SVG / NODES / EDGES VISUALS---------- */
+#route-layer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 10;
+}
+.node {
+    display: none;
+}
+
+.start-node,
+.end-node {
+	display: block;
+	width: 14px;
+	height: 14px;
+	background: #ff0000;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 20;
+	position: absolute;
+}
+
+/* ----------DROPDOWN CONTROLS---------- */
+
+.controls {
+	margin: 80px auto 20px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(to left, #a11e00, #f09819);
+	padding: 20px 25px;
+	border-radius: 20px;
+	box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+	width: fit-content;
+	font-family: 'Poppins', sans-serif;
+	font-size: 14px;
+	color:white;
+}
+
+.controls select {
+	padding: 10px 15px;
+	font-family: 'Poppins', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	color: white;
+	border-radius: 20px;
+	border: 1px solid #aaa;
+	outline: none;
+	text-align: center;
+	background: linear-gradient(to right, #800000, #FF8C00);
+	box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.controls select option {
+    background-color: #800000; 
+    font-family: 'Poppins', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	color: white;              
+    /*padding: 10px;*/            
+}
+
+
+.controls button {
+	padding: 10px 20px;
+	border-radius: 25px;
+	border: none;
+	background: linear-gradient(to right, #a11e00, #f09819);
+	color: white;
+	font-family: 'Poppins', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: 0px 3px 6px rgba(0,0,0,0.4);
+}
+
+
+/* ----------Replay Button---------- */
+.replay button {
+	padding: 10px 20px;
+	border-radius: 25px;
+	border: none;
+	background: linear-gradient(to right, #a11e00, #f09819);
+	color: white;
+	font-family: 'Poppins', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: 0px 3px 6px rgba(0,0,0,0.4);
+}
+
+/* ----------LINK RESET---------- */
+
+a {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+}
+
+/* ----------MOBILE OPTIMIZATION---------- */
+
+@media (max-width: 768px) {
+
+	body {
+		padding: 20px;
+	}
+
+	.header {
+		height: 45px;
+	}
+
+	.logo-image {
+		max-width: 260px;
+		margin-top: 50px;
+	}
+
+	.nav-btn {
+		width: 100%;
+		max-width: 320px;
+		font-size: 16px;
+		padding: 14px 20px;
+	}
+
+	.container-btn {
+		gap: 20px;
+	}
+
+	.controls {
+		margin-top: 70px;
+		gap: 10px;
+	}
+
+	#map-container {
+		max-width: 100%;
+	}
+}
+
+/* -------- LIVE GPS -------- */
+.user-marker {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(26,115,232,0.6); }
+    70% { box-shadow: 0 0 0 12px rgba(26,115,232,0); }
+    100% { box-shadow: 0 0 0 0 rgba(26,115,232,0); }
+}
+
+
